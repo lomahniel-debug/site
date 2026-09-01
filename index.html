@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>VendTudo | Sua loja online</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #222;
+}
+
+header {
+    background: #111827;
+    color: white;
+    padding: 15px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #ffd400;
+}
+
+.search {
+    flex: 1;
+    max-width: 550px;
+}
+
+.search input {
+    width: 100%;
+    padding: 13px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+}
+
+.cart {
+    background: #ffd400;
+    color: #111;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.hero {
+    background: linear-gradient(120deg, #111827, #374151);
+    color: white;
+    padding: 60px 5%;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 25px;
+}
+
+.hero button {
+    background: #ffd400;
+    border: none;
+    padding: 14px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+main {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.products {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.product {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.1);
+}
+
+.product-image {
+    height: 180px;
+    background: #eee;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 70px;
+    margin-bottom: 15px;
+}
+
+.product h3 {
+    margin-bottom: 10px;
+}
+
+.price {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.product button {
+    width: 100%;
+    padding: 12px;
+    background: #111827;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.product button:hover {
+    background: #ffd400;
+    color: #111;
+}
+
+#cartBox {
+    display: none;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 380px;
+    max-width: 100%;
+    height: 100%;
+    background: white;
+    z-index: 10;
+    padding: 25px;
+    box-shadow: -5px 0 20px rgba(0,0,0,.2);
+}
+
+#cartBox h2 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.close {
+    background: #eee;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.cart-item {
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+}
+
+.total {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.checkout {
+    width: 100%;
+    background: #16a34a;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+footer {
+    background: #111827;
+    color: white;
+    text-align: center;
+    padding: 30px;
+    margin-top: 50px;
+}
+
+@media (max-width: 800px) {
+    header {
+        flex-wrap: wrap;
+    }
+
+    .products {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero h1 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 500px) {
+    .products {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+VendTudo
+</div>
+
+<div class="search">
+<input type="text" id="search" placeholder="Buscar produtos..." onkeyup="searchProducts()">
+</div>
+
+<button class="cart" onclick="openCart()">
+🛒 Carrinho (<span id="cartCount">0</span>)
+</button>
+
+</header>
+
+<section class="hero">
+
+<h1>Encontre tudo em um só lugar!</h1>
+
+<p>
+Celulares, videogames, acessórios e muito mais.
+</p>
+
+<button onclick="document.getElementById('catalogo').scrollIntoView()">
+Ver produtos
+</button>
+
+</section>
+
+<main id="catalogo">
+
+<h2>🔥 Produtos em destaque</h2>
+
+<div class="products" id="products">
+
+<div class="product">
+
+<div class="product-image">
+📱
+</div>
+
+<h3>Smartphone Galaxy</h3>
+
+<p>Smartphone moderno e potente.</p>
+
+<div class="price">
+R$ 899,90
+</div>
+
+<button onclick="addCart('Smartphone Galaxy', 899.90)">
+Adicionar ao carrinho
+</button>
+
+</div>
+
+
+<div class="product">
+
+<div class="product-image">
+🎮
+</div>
+
+<h3>PlayStation 5</h3>
+
+<p>Console para sua diversão.</p>
+
+<div class="price">
+R$ 3.499,90
+</div>
+
+<button onclick="addCart('PlayStation 5', 3499.90)">
+Adicionar ao carrinho
+</button>
+
+</div>
+
+
+<div class="product">
+
+<div class="product-image">
+🎧
+</div>
+
+<h3>Fone Bluetooth</h3>
+
+<p>Som de alta qualidade.</p>
+
+<div class="price">
+R$ 79,90
+</div>
+
+<button onclick="addCart('Fone Bluetooth', 79.90)">
+Adicionar ao carrinho
+</button>
+
+</div>
+
+
+<div class="product">
+
+<div class="product-image">
+🎮
+</div>
+
+<h3>Controle Bluetooth</h3>
+
+<p>Controle sem fio para jogos.</p>
+
+<div class="price">
+R$ 149,90
+</div>
+
+<button onclick="addCart('Controle Bluetooth', 149.90)">
+Adicionar ao carrinho
+</button>
+
+</div>
+
+</div>
+
+</main>
+
+
+<div id="cartBox">
+
+<h2>
+Meu Carrinho
+<button class="close" onclick="closeCart()">✕</button>
+</h2>
+
+<div id="cartItems"></div>
+
+<div class="total">
+Total: R$ <span id="total">0,00</span>
+</div>
+
+<button class="checkout" onclick="checkout()">
+Finalizar compra
+</button>
+
+</div>
+
+
+<footer>
+
+<p>© 2026 VendTudo - Sua loja online</p>
+
+</footer>
+
+
+<script>
+
+let cart = [];
+
+function addCart(name, price) {
+
+    cart.push({
+        name: name,
+        price: price
+    });
+
+    updateCart();
+
+    alert("Produto adicionado ao carrinho!");
+}
+
+function updateCart() {
+
+    document.getElementById("cartCount").innerText = cart.length;
+
+    let html = "";
+    let total = 0;
+
+    cart.forEach(function(item, index) {
+
+        total += item.price;
+
+        html += `
+        <div class="cart-item">
+            <strong>${item.name}</strong>
+            <br>
+            R$ ${item.price.toFixed(2).replace(".", ",")}
+            <br>
+            <button onclick="removeItem(${index})">
+                Remover
+            </button>
+        </div>
+        `;
+    });
+
+    document.getElementById("cartItems").innerHTML = html;
+
+    document.getElementById("total").innerText =
+        total.toFixed(2).replace(".", ",");
+}
+
+function removeItem(index) {
+
+    cart.splice(index, 1);
+
+    updateCart();
+}
+
+function openCart() {
+
+    document.getElementById("cartBox").style.display = "block";
+}
+
+function closeCart() {
+
+    document.getElementById("cartBox").style.display = "none";
+}
+
+function checkout() {
+
+    if (cart.length === 0) {
+
+        alert("Seu carrinho está vazio!");
+
+        return;
+    }
+
+    alert(
+        "Checkout da VendTudo será conectado na próxima etapa!"
+    );
+}
+
+function searchProducts() {
+
+    let search =
+        document.getElementById("search").value.toLowerCase();
+
+    let products =
+        document.querySelectorAll(".product");
+
+    products.forEach(function(product) {
+
+        let text =
+            product.innerText.toLowerCase();
+
+        if (text.includes(search)) {
+
+            product.style.display = "";
+
+        } else {
+
+            product.style.display = "none";
+        }
+
+    });
+}
+
+</script>
+
+</body>
+</html>
